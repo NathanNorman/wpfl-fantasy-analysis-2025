@@ -450,7 +450,7 @@
                 <label for="week-picker">📅 Week:</label>
                 <select id="week-picker" onchange="changeWeek(this.value)">
                     <option value="1" selected>Week 1</option>
-                    <option value="2" disabled>Week 2 (Coming Soon)</option>
+                    <option value="2">Week 2</option>
                     <option value="3" disabled>Week 3 (Coming Soon)</option>
                     <option value="4" disabled>Week 4 (Coming Soon)</option>
                     <option value="5" disabled>Week 5 (Coming Soon)</option>
@@ -992,14 +992,16 @@
         }
 
         function changeWeek(weekNumber) {
-            // For now, just alert (future enhancement for multiple weeks)
-            if (weekNumber !== '1') {
+            if (weekNumber === '1') {
+                // Stay on current page (Week 1)
+                location.reload();
+            } else if (weekNumber === '2') {
+                // Redirect to Week 2 analysis
+                window.location.href = 'WPFL-Week-2-Matchups.html';
+            } else {
                 alert(`Week ${weekNumber} analysis coming soon! Check back after the games complete.`);
                 // Reset to Week 1
                 document.getElementById('week-picker').value = '1';
-            } else {
-                // Refresh current week data (could trigger re-fetch in future)
-                location.reload();
             }
         }
 
