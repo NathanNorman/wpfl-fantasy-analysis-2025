@@ -225,13 +225,145 @@
             margin: 8px 0;
             border-left: 3px solid #E74C3C;
         }
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px 0;
+            }
+            .matchup-content {
+                grid-template-columns: 1fr 1.2fr 1fr;
+                gap: 10px;
+            }
+            .narrative {
+                font-size: 0.95em;
+                padding: 12px;
+            }
+            .team-roster {
+                padding: 10px;
+            }
+            .player-item {
+                font-size: 0.8em;
+                padding: 3px 6px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 15px;
+                margin: 5px 0;
+            }
             .matchup-content {
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
+            .matchup {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .matchup-header {
+                font-size: 1.3em;
+                text-align: center;
+            }
+            .matchup-subtitle {
+                font-size: 1.1em;
+            }
+            .narrative {
+                font-size: 1em;
+                text-align: left;
+                padding: 15px;
+            }
+            .team-roster {
+                margin: 10px 0;
+            }
+            .roster-header {
+                font-size: 1em;
+            }
+            .player-item {
+                font-size: 0.85em;
+                padding: 4px 8px;
+            }
             .insights-grid {
                 grid-template-columns: 1fr;
+            }
+            .insight-card {
+                padding: 15px;
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 2px;
+            }
+            .container {
+                padding: 10px;
+                border-radius: 8px;
+            }
+            .matchup {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .matchup-header {
+                font-size: 1.1em;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .score {
+                font-size: 0.9em;
+                padding: 6px 12px;
+            }
+            .matchup-subtitle {
+                font-size: 1em;
+            }
+            .narrative {
+                font-size: 0.9em;
+                line-height: 1.5;
+                padding: 10px;
+            }
+            .team-roster {
+                padding: 8px;
+            }
+            .roster-header {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+            .player-item {
+                font-size: 0.75em;
+                padding: 2px 4px;
+                margin: 1px 0;
+            }
+            .player-item span:first-child {
+                flex: 1;
+                margin-right: 5px;
+            }
+            .points {
+                font-size: 0.8em;
+                min-width: 35px;
+                text-align: right;
+            }
+            .position {
+                font-size: 0.7em;
+            }
+            .highlight, .player-stat, .disaster {
+                padding: 1px 4px;
+                font-size: 0.85em;
             }
         }
     </style>
