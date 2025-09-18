@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPFL Week 2 Matchup Narratives</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .matchup {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 6px solid #FF6B35;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .matchup-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .team-roster {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #3498DB;
+        }
+        .team-roster.winner {
+            border-color: #27AE60;
+            background: rgba(39,174,96,0.1);
+        }
+        .team-roster.loser {
+            border-color: #E74C3C;
+            background: rgba(231,76,60,0.1);
+        }
+        .roster-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .roster-header.winner {
+            background: #27AE60;
+            color: white;
+        }
+        .roster-header.loser {
+            background: #E74C3C;
+            color: white;
+        }
+        .player-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .player-item {
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+        }
+        .starter {
+            background: #E8F5E8;
+            border-left: 3px solid #27AE60;
+        }
+        .bench {
+            background: #F5F5F5;
+            border-left: 3px solid #95A5A6;
+        }
+        .bench.star {
+            background: #FFF3CD;
+            border-left: 3px solid #F39C12;
+            font-weight: bold;
+        }
+        .starter.bust {
+            background: #FFEBEE;
+            border-left: 3px solid #E74C3C;
+        }
+        .matchup-header {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .score {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .matchup-subtitle {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2C3E50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .narrative {
+            font-size: 1.05em;
+            text-align: justify;
+            line-height: 1.7;
+            color: #2C3E50;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .highlight {
+            background: linear-gradient(120deg, #FFD700, #FFA500);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+        .player-stat {
+            background: #E8F5E8;
+            color: #27AE60;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .disaster {
+            background: #FFEBEE;
+            color: #E74C3C;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .points {
+            font-weight: bold;
+            color: #2980B9;
+        }
+        .position {
+            font-size: 0.8em;
+            color: #7F8C8D;
+            font-weight: normal;
+        }
+        .insights-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .insight-card {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid #FFD700;
+            padding: 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        .insight-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stat-highlight {
+            background: rgba(255,215,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #FFD700;
+        }
+        .trade-opportunity {
+            background: rgba(46,204,113,0.2);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 3px solid #2ECC71;
+        }
+        .warning-sign {
+            background: rgba(231,76,60,0.2);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 3px solid #E74C3C;
+        }
+        
+        /* Navigation Controls Styling */
+        .nav-controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .week-selector, .matchup-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-controls label {
+            font-weight: bold;
+            color: #2C3E50;
+            font-size: 1.1em;
+        }
+        .nav-controls select {
+            padding: 10px 15px;
+            border: 2px solid #3498DB;
+            border-radius: 8px;
+            background: white;
+            font-size: 1em;
+            min-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-controls select:hover {
+            border-color: #2980B9;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.3);
+        }
+        .nav-controls select:focus {
+            outline: none;
+            border-color: #2980B9;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px 0;
+            }
+            .matchup-content {
+                grid-template-columns: 1fr 1.2fr 1fr;
+                gap: 10px;
+            }
+            .narrative {
+                font-size: 0.95em;
+                padding: 12px;
+            }
+            .team-roster {
+                padding: 10px;
+            }
+            .player-item {
+                font-size: 0.8em;
+                padding: 3px 6px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 15px;
+                margin: 5px 0;
+            }
+            .matchup-content {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .matchup {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .matchup-header {
+                font-size: 1.3em;
+                text-align: center;
+            }
+            .matchup-subtitle {
+                font-size: 1.1em;
+            }
+            .narrative {
+                font-size: 1em;
+                text-align: left;
+                padding: 15px;
+            }
+            .team-roster {
+                margin: 10px 0;
+            }
+            .roster-header {
+                font-size: 1em;
+            }
+            .player-item {
+                font-size: 0.85em;
+                padding: 4px 8px;
+            }
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+            .insight-card {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            .nav-controls {
+                flex-direction: column;
+                gap: 15px;
+                margin: 15px 0;
+                padding: 15px;
+            }
+            .nav-controls select {
+                min-width: 250px;
+                font-size: 0.9em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 2px;
+            }
+            .container {
+                padding: 10px;
+                border-radius: 8px;
+            }
+            .matchup {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .matchup-header {
+                font-size: 1.1em;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .score {
+                font-size: 0.9em;
+                padding: 6px 12px;
+            }
+            .matchup-subtitle {
+                font-size: 1em;
+            }
+            .narrative {
+                font-size: 0.9em;
+                line-height: 1.5;
+                padding: 10px;
+            }
+            .team-roster {
+                padding: 8px;
+            }
+            .roster-header {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+            .player-item {
+                font-size: 0.75em;
+                padding: 2px 4px;
+                margin: 1px 0;
+            }
+            .player-item span:first-child {
+                flex: 1;
+                margin-right: 5px;
+            }
+            .points {
+                font-size: 0.8em;
+                min-width: 35px;
+                text-align: right;
+            }
+            .position {
+                font-size: 0.7em;
+            }
+            .highlight, .player-stat, .disaster {
+                padding: 1px 4px;
+                font-size: 0.85em;
+            }
+            .nav-controls {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            .nav-controls select {
+                min-width: 200px;
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            .nav-controls label {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏈 WPFL Week 2 Matchup Narratives 🏈</h1>
+        <div class="subtitle">Redemption Stories and Crushing Defeats - Complete Analysis</div>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <div class="week-selector">
+                <label for="week-picker">📅 Week:</label>
+                <select id="week-picker" onchange="changeWeek(this.value)">
+                    <option value="1">Week 1</option>
+                    <option value="2" selected>Week 2</option>
+                    <option value="3" disabled>Week 3 (Coming Soon)</option>
+                    <option value="4" disabled>Week 4 (Coming Soon)</option>
+                    <option value="5" disabled>Week 5 (Coming Soon)</option>
+                </select>
+            </div>
+            <div class="matchup-selector">
+                <label for="matchup-picker">🔥 Matchup:</label>
+                <select id="matchup-picker" onchange="showMatchup(this.value)">
+                    <option value="all">All Matchups</option>
+                    <option value="1">🏆 Hate Thy Nabers vs Summerville Sadness</option>
+                    <option value="2">🔥 Nater's Taters vs Hops and Hail Marys</option>
+                    <option value="3">💥 Addie's Baddies vs roxlundy</option>
+                    <option value="4">😤 brennamcampbell vs Flight Of The Owl</option>
+                    <option value="5">🎯 Avery's Avengers vs The Good Christians</option>
+                    <option value="6">🏅 Raleigh Llamas vs Sheffield Shufflers</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="matchup" id="matchup-1">
+            <div class="matchup-header">
+                <span>🏆 MATCHUP 1: Hate Thy Nabers vs Summerville Sadness</span>
+            </div>
+            <div class="score">135.48 - 121.58 (Hate Thy Nabers Victory)</div>
+            <div class="matchup-subtitle">🔥 Elite Anchors Finally Deliver</div>
+            
+            <div class="matchup-content">
+                <div class="team-roster winner">
+                    <div class="roster-header winner">🏆 Hate Thy Nabers - 135.48</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Justin Herbert <span class="position">(QB)</span></span> <span class="points">18.78</span></li>
+                        <li class="player-item starter"><span>Jonathan Taylor <span class="position">(RB)</span></span> <span class="points">28.5</span></li>
+                        <li class="player-item starter bust"><span>Breece Hall <span class="position">(RB)</span></span> <span class="points">4.8</span></li>
+                        <li class="player-item starter"><span>Malik Nabers <span class="position">(WR)</span></span> <span class="points">33.2</span></li>
+                        <li class="player-item starter"><span>George Pickens <span class="position">(WR)</span></span> <span class="points">15.3</span></li>
+                        <li class="player-item starter"><span>Jake Tonges <span class="position">(TE)</span></span> <span class="points">5.1</span></li>
+                        <li class="player-item starter"><span>Deebo Samuel <span class="position">(WR)</span></span> <span class="points">13.9</span></li>
+                        <li class="player-item starter bust"><span>RJ Harvey <span class="position">(RB)</span></span> <span class="points">2.9</span></li>
+                        <li class="player-item starter bust"><span>Matt Gay <span class="position">(K)</span></span> <span class="points">4.0</span></li>
+                        <li class="player-item starter"><span>Lions D/ST</span> <span class="points">9.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench star"><span>Rome Odunze <span class="position">(WR)</span></span> <span class="points">28.3</span></li>
+                        <li class="player-item bench"><span>Keon Coleman <span class="position">(WR)</span></span> <span class="points">4.1</span></li>
+                        <li class="player-item bench"><span>Cam Ward <span class="position">(QB)</span></span> <span class="points">9.8</span></li>
+                        <li class="player-item bench"><span>Joe Mixon <span class="position">(RB)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>George Kittle <span class="position">(TE)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>Najee Harris <span class="position">(RB)</span></span> <span class="points">5.8</span></li>
+                    </ul>
+                </div>
+
+                <div class="narrative">
+                    Week 2 delivered the redemption stories the league desperately needed, as elite talents bounced back from Week 1 disappointments in spectacular fashion. Hate Thy Nabers witnessed their "elite talent foundation" thesis fully validated as <span class="highlight">Malik Nabers (33.2 pts)</span> exploded for the week's highest individual performance, proving that rookie generational talent doesn't stay quiet for long. <span class="player-stat">Jonathan Taylor (28.5 pts)</span> reminded everyone why he was drafted as an elite RB1, delivering exactly the workload and efficiency combination that analysts projected for his Colts return. The systematic validation continued with <span class="player-stat">George Pickens (15.3 pts)</span> finally showing the Cowboys system upgrade benefits that research predicted.<br><br>However, the cruel irony of bench management struck again, as <span class="highlight">Rome Odunze (28.3 pts)</span> delivered a monster performance from the sidelines, nearly matching Nabers' elite production and representing a devastating 28+ points left unused. Summerville Sadness experienced their own redemption narrative as <span class="player-stat">Ja'Marr Chase (29.5 pts)</span> bounced back from his shocking Week 1 disaster with elite target-share dominance, while <span class="player-stat">Kenneth Walker III (18.3 pts)</span> showed that when healthy, his efficiency ceiling remains among the position's elite. The tragedy for Summerville was starting <span class="disaster">Justin Fields (3.98 pts)</span> over the explosive <span class="highlight">Bo Nix (21.24 pts)</span> on their bench, a decision that represented the difference between victory and defeat.
+                </div>
+
+                <div class="team-roster loser">
+                    <div class="roster-header loser">Summerville Sadness - 121.58</div>
+                    <ul class="player-list">
+                        <li class="player-item starter bust"><span>Justin Fields <span class="position">(QB)</span></span> <span class="points">3.98</span></li>
+                        <li class="player-item starter"><span>Chase Brown <span class="position">(RB)</span></span> <span class="points">7.5</span></li>
+                        <li class="player-item starter"><span>Kenneth Walker <span class="position">(RB)</span></span> <span class="points">18.3</span></li>
+                        <li class="player-item starter"><span>Ja'Marr Chase <span class="position">(WR)</span></span> <span class="points">29.5</span></li>
+                        <li class="player-item starter"><span>Davante Adams <span class="position">(WR)</span></span> <span class="points">19.6</span></li>
+                        <li class="player-item starter"><span>Trey McBride <span class="position">(TE)</span></span> <span class="points">10.8</span></li>
+                        <li class="player-item starter"><span>Tetairoa McMillan <span class="position">(WR)</span></span> <span class="points">13.0</span></li>
+                        <li class="player-item starter"><span>Travis Etienne <span class="position">(RB)</span></span> <span class="points">15.9</span></li>
+                        <li class="player-item starter bust"><span>Chase McLaughlin <span class="position">(K)</span></span> <span class="points">1.0</span></li>
+                        <li class="player-item starter bust"><span>Commanders D/ST</span> <span class="points">2.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench"><span>Chris Rodriguez <span class="position">(RB)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench star"><span>Bo Nix <span class="position">(QB)</span></span> <span class="points">21.24</span></li>
+                        <li class="player-item bench"><span>Jaydon Blue <span class="position">(RB)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>Matthew Golden <span class="position">(WR)</span></span> <span class="points">1.5</span></li>
+                        <li class="player-item bench star"><span>Zach Ertz <span class="position">(TE)</span></span> <span class="points">15.4</span></li>
+                        <li class="player-item bench"><span>Brandon Aiyuk <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="matchup" id="matchup-2">
+            <div class="matchup-header">
+                <span>🔥 MATCHUP 2: Nater's Taters vs Hops and Hail Marys</span>
+            </div>
+            <div class="score">133.36 - 100.74 (Nater's Taters Victory)</div>
+            <div class="matchup-subtitle">⚡ Lineup Lesson Finally Learned</div>
+            
+            <div class="matchup-content">
+                <div class="team-roster winner">
+                    <div class="roster-header winner">🏆 Nater's Taters - 133.36</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Jared Goff <span class="position">(QB)</span></span> <span class="points">33.96</span></li>
+                        <li class="player-item starter"><span>Kyren Williams <span class="position">(RB)</span></span> <span class="points">9.0</span></li>
+                        <li class="player-item starter"><span>James Cook <span class="position">(RB)</span></span> <span class="points">26.0</span></li>
+                        <li class="player-item starter"><span>Justin Jefferson <span class="position">(WR)</span></span> <span class="points">9.6</span></li>
+                        <li class="player-item starter"><span>DK Metcalf <span class="position">(WR)</span></span> <span class="points">9.5</span></li>
+                        <li class="player-item starter bust"><span>Sam LaPorta <span class="position">(TE)</span></span> <span class="points">4.1</span></li>
+                        <li class="player-item starter"><span>Calvin Ridley <span class="position">(WR)</span></span> <span class="points">7.2</span></li>
+                        <li class="player-item starter"><span>Javonte Williams <span class="position">(RB)</span></span> <span class="points">22.0</span></li>
+                        <li class="player-item starter"><span>Harrison Butker <span class="position">(K)</span></span> <span class="points">6.0</span></li>
+                        <li class="player-item starter"><span>Vikings D/ST</span> <span class="points">6.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench star"><span>Trevor Lawrence <span class="position">(QB)</span></span> <span class="points">21.24</span></li>
+                        <li class="player-item bench star"><span>Rhamondre Stevenson <span class="position">(RB)</span></span> <span class="points">18.7</span></li>
+                        <li class="player-item bench"><span>Cooper Kupp <span class="position">(WR)</span></span> <span class="points">12.5</span></li>
+                        <li class="player-item bench"><span>Ray Davis <span class="position">(RB)</span></span> <span class="points">2.4</span></li>
+                        <li class="player-item bench"><span>Blake Corum <span class="position">(RB)</span></span> <span class="points">10.4</span></li>
+                    </ul>
+                </div>
+
+                <div class="narrative">
+                    Week 2 became Nater's Taters' redemption story, as lineup lessons from the painful Week 1 loss finally translated into dominant victory. The Lions stack reached its ceiling potential as <span class="highlight">Jared Goff (33.96 pts)</span> delivered the week's highest QB performance, validating every projection about Detroit's explosive offensive system and his chemistry with elite weapons. The decision to finally start <span class="player-stat">Javonte Williams (22.0 pts)</span> paid immediate dividends, proving that his Week 1 bench explosion wasn't a fluke but rather a glimpse of his legitimate role in Dallas's revamped offense. <span class="player-stat">James Cook (26.0 pts)</span> continued his Bills system excellence, providing the exact reliability that research projected for proven system fits.<br><br>However, the bench management demons weren't fully exorcised, as <span class="highlight">Trevor Lawrence (21.24 pts)</span> and <span class="highlight">Rhamondre Stevenson (18.7 pts)</span> combined for nearly 40 points while watching from the sidelines. Hops and Hail Marys continued their nightmare season as <span class="disaster">Joe Burrow (7.04 pts)</span> further validated injury concerns while <span class="highlight">Drake Maye (26.3 pts)</span> exploded on their bench for the second consecutive week. <span class="player-stat">Puka Nacua (23.6 pts)</span> provided the elite target-share production that kept them competitive, but <span class="disaster">T.J. Hockenson (1.7 pts)</span> reminded everyone that even proven players can disappoint when systems change. This matchup showcased both the power of learning from mistakes and the continued cost of overthinking lineup decisions.
+                </div>
+
+                <div class="team-roster loser">
+                    <div class="roster-header loser">Hops and Hail Marys - 100.74</div>
+                    <ul class="player-list">
+                        <li class="player-item starter bust"><span>Joe Burrow <span class="position">(QB)</span></span> <span class="points">7.04</span></li>
+                        <li class="player-item starter"><span>Josh Jacobs <span class="position">(RB)</span></span> <span class="points">14.4</span></li>
+                        <li class="player-item starter"><span>Tyrone Tracy <span class="position">(RB)</span></span> <span class="points">7.1</span></li>
+                        <li class="player-item starter"><span>Puka Nacua <span class="position">(WR)</span></span> <span class="points">23.6</span></li>
+                        <li class="player-item starter"><span>DeVonta Smith <span class="position">(WR)</span></span> <span class="points">7.3</span></li>
+                        <li class="player-item starter bust"><span>T.J. Hockenson <span class="position">(TE)</span></span> <span class="points">1.7</span></li>
+                        <li class="player-item starter"><span>Chris Olave <span class="position">(WR)</span></span> <span class="points">8.4</span></li>
+                        <li class="player-item starter"><span>Nick Chubb <span class="position">(RB)</span></span> <span class="points">14.2</span></li>
+                        <li class="player-item starter"><span>Tyler Loop <span class="position">(K)</span></span> <span class="points">12.0</span></li>
+                        <li class="player-item starter"><span>Steelers D/ST</span> <span class="points">5.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench star"><span>Drake Maye <span class="position">(QB)</span></span> <span class="points">26.3</span></li>
+                        <li class="player-item bench"><span>Chris Godwin <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>Mark Andrews <span class="position">(TE)</span></span> <span class="points">0.9</span></li>
+                        <li class="player-item bench"><span>Dallas Goedert <span class="position">(TE)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench star"><span>Jauan Jennings <span class="position">(WR)</span></span> <span class="points">17.4</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="matchup" id="matchup-3">
+            <div class="matchup-header">
+                <span>💥 MATCHUP 3: Addie's Baddies vs roxlundy</span>
+            </div>
+            <div class="score">118.3 - 111.6 (Addie's Baddies Victory)</div>
+            <div class="matchup-subtitle">🌟 Target Hog Supremacy</div>
+            
+            <div class="matchup-content">
+                <div class="team-roster winner">
+                    <div class="roster-header winner">🏆 Addie's Baddies - 118.3</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Kyler Murray <span class="position">(QB)</span></span> <span class="points">15.0</span></li>
+                        <li class="player-item starter bust"><span>Omarion Hampton <span class="position">(RB)</span></span> <span class="points">3.0</span></li>
+                        <li class="player-item starter"><span>Chuba Hubbard <span class="position">(RB)</span></span> <span class="points">16.2</span></li>
+                        <li class="player-item starter"><span>Amon-Ra St. Brown <span class="position">(WR)</span></span> <span class="points">34.7</span></li>
+                        <li class="player-item starter"><span>A.J. Brown <span class="position">(WR)</span></span> <span class="points">5.2</span></li>
+                        <li class="player-item starter"><span>Dalton Kincaid <span class="position">(TE)</span></span> <span class="points">5.7</span></li>
+                        <li class="player-item starter"><span>Trey Benson <span class="position">(RB)</span></span> <span class="points">6.4</span></li>
+                        <li class="player-item starter"><span>DJ Moore <span class="position">(WR)</span></span> <span class="points">7.1</span></li>
+                        <li class="player-item starter"><span>Chris Boswell <span class="position">(K)</span></span> <span class="points">12.0</span></li>
+                        <li class="player-item starter"><span>Bills D/ST</span> <span class="points">13.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench"><span>Rashee Rice <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>J.J. McCarthy <span class="position">(QB)</span></span> <span class="points">4.82</span></li>
+                        <li class="player-item bench star"><span>Jaylen Waddle <span class="position">(WR)</span></span> <span class="points">15.3</span></li>
+                        <li class="player-item bench"><span>Pat Freiermuth <span class="position">(TE)</span></span> <span class="points">4.6</span></li>
+                        <li class="player-item bench"><span>Brian Robinson <span class="position">(RB)</span></span> <span class="points">2.4</span></li>
+                    </ul>
+                </div>
+
+                <div class="narrative">
+                    This matchup demonstrated the ultimate vindication of target-share analysis as <span class="highlight">Amon-Ra St. Brown (34.7 pts)</span> delivered the week's highest individual performance, proving that Lions target dominance creates an unassailable weekly floor even in tough matchups. The "Sun God" reminded everyone why comprehensive research identified him as one of fantasy's most reliable early-round picks, turning his projected 25%+ target share into elite production. Addie's Baddies' victory came despite continued RB room struggles, as <span class="disaster">Omarion Hampton (3.0 pts)</span> confirmed the "league's weakest RB room" assessment while <span class="player-stat">Chuba Hubbard (16.2 pts)</span> provided surprising reliability in Carolina's committee.<br><br>roxlundy experienced the harsh reality of Week 1 sell-high candidates coming back to earth, as <span class="disaster">Derrick Henry (2.3 pts)</span> crashed from his 28.7-point explosion to a devastating floor performance that validated age-related decline concerns. The Ravens goal-line specialist role proved unreliable when game scripts shifted, highlighting the boom-bust nature of touchdown-dependent players. <span class="player-stat">Brandon Aubrey (23.0 pts)</span> provided an unlikely kicker ceiling performance that kept the matchup competitive, while <span class="player-stat">Brock Bowers (6.3 pts)</span> continued his steady rookie TE development. This matchup perfectly illustrated how elite target-share players provide championship foundations while touchdown-dependent veterans create weekly volatility.
+                </div>
+
+                <div class="team-roster loser">
+                    <div class="roster-header loser">roxlundy - 111.6</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Baker Mayfield <span class="position">(QB)</span></span> <span class="points">19.9</span></li>
+                        <li class="player-item starter bust"><span>Derrick Henry <span class="position">(RB)</span></span> <span class="points">2.3</span></li>
+                        <li class="player-item starter"><span>James Conner <span class="position">(RB)</span></span> <span class="points">11.7</span></li>
+                        <li class="player-item starter"><span>Brian Thomas <span class="position">(WR)</span></span> <span class="points">6.9</span></li>
+                        <li class="player-item starter bust"><span>Courtland Sutton <span class="position">(WR)</span></span> <span class="points">1.1</span></li>
+                        <li class="player-item starter"><span>Brock Bowers <span class="position">(TE)</span></span> <span class="points">6.3</span></li>
+                        <li class="player-item starter"><span>Jakobi Meyers <span class="position">(WR)</span></span> <span class="points">9.8</span></li>
+                        <li class="player-item starter"><span>Keenan Allen <span class="position">(WR)</span></span> <span class="points">14.6</span></li>
+                        <li class="player-item starter"><span>Brandon Aubrey <span class="position">(K)</span></span> <span class="points">23.0</span></li>
+                        <li class="player-item starter"><span>Ravens D/ST</span> <span class="points">16.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench"><span>Luther Burden <span class="position">(WR)</span></span> <span class="points">1.0</span></li>
+                        <li class="player-item bench"><span>Rachaad White <span class="position">(RB)</span></span> <span class="points">13.6</span></li>
+                        <li class="player-item bench"><span>Tank Bigsby <span class="position">(RB)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>C.J. Stroud <span class="position">(QB)</span></span> <span class="points">14.98</span></li>
+                        <li class="player-item bench"><span>Eagles D/ST</span> <span class="points">6.0</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="matchup" id="matchup-4">
+            <div class="matchup-header">
+                <span>😤 MATCHUP 4: brennamcampbell vs Flight Of The Owl</span>
+            </div>
+            <div class="score">103.92 - 104.4 (Flight Of The Owl Victory)</div>
+            <div class="matchup-subtitle">🎯 Championship Contenders' Nail-Biter</div>
+            
+            <div class="matchup-content">
+                <div class="team-roster loser">
+                    <div class="roster-header loser">brennamcampbell - 103.92</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Josh Allen <span class="position">(QB)</span></span> <span class="points">11.82</span></li>
+                        <li class="player-item starter"><span>Jahmyr Gibbs <span class="position">(RB)</span></span> <span class="points">17.9</span></li>
+                        <li class="player-item starter"><span>David Montgomery <span class="position">(RB)</span></span> <span class="points">12.6</span></li>
+                        <li class="player-item starter"><span>Ladd McConkey <span class="position">(WR)</span></span> <span class="points">7.3</span></li>
+                        <li class="player-item starter"><span>Tyreek Hill <span class="position">(WR)</span></span> <span class="points">13.9</span></li>
+                        <li class="player-item starter"><span>Tucker Kraft <span class="position">(TE)</span></span> <span class="points">21.4</span></li>
+                        <li class="player-item starter bust"><span>Xavier Worthy <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item starter"><span>Michael Pittman <span class="position">(WR)</span></span> <span class="points">6.0</span></li>
+                        <li class="player-item starter"><span>Jake Bates <span class="position">(K)</span></span> <span class="points">9.0</span></li>
+                        <li class="player-item starter bust"><span>Bucs D/ST</span> <span class="points">4.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench"><span>Jayden Reed <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>Braelon Allen <span class="position">(RB)</span></span> <span class="points">1.1</span></li>
+                        <li class="player-item bench"><span>Kaleb Johnson <span class="position">(RB)</span></span> <span class="points">0.1</span></li>
+                        <li class="player-item bench"><span>Tyjae Spears <span class="position">(RB)</span></span> <span class="points">0.0</span></li>
+                        <li class="player-item bench"><span>Jordan Addison <span class="position">(WR)</span></span> <span class="points">0.0</span></li>
+                    </ul>
+                </div>
+
+                <div class="narrative">
+                    The closest matchup of Week 2 showcased two championship contenders in vastly different phases of their season arcs. brennamcampbell's Josh Allen had his first "human" performance of the season with 11.82 points, proving that even elite dual-threat QBs can't deliver 35+ point explosions every week. However, their Lions stack provided the exact type of weekly advantage that smart roster construction creates, as <span class="player-stat">Jahmyr Gibbs (17.9 pts)</span> and <span class="player-stat">David Montgomery (12.6 pts)</span> combined for reliable production in Detroit's high-powered offense. The breakout story emerged from <span class="highlight">Tucker Kraft (21.4 pts)</span>, who delivered the exact type of Packers TE opportunity that comprehensive analysis identified, providing a massive positional advantage that nearly secured victory despite quarterback struggles.<br><br>Flight Of The Owl's narrow victory came with painful lessons about lineup management, as they left a staggering 53+ points on their bench through a series of mystifying decisions. <span class="highlight">Dak Prescott (23.14 pts)</span> and <span class="highlight">Wan'Dale Robinson (24.2 pts)</span> combined for nearly 50 points while watching Jayden Daniels (19.7 pts) and other underperforming starters claim victories they didn't earn. <span class="player-stat">De'Von Achane (22.2 pts)</span> continued his Tua-dependent excellence while <span class="player-stat">CeeDee Lamb (15.7 pts)</span> provided the target-king reliability that championship teams require. This razor-thin victory highlighted how championship contenders can survive poor lineup management through superior talent depth, but also warned that such luxury won't last against optimal opponents.
+                </div>
+
+                <div class="team-roster winner">
+                    <div class="roster-header winner">🏆 Flight Of The Owl - 104.4</div>
+                    <ul class="player-list">
+                        <li class="player-item starter"><span>Jayden Daniels <span class="position">(QB)</span></span> <span class="points">19.7</span></li>
+                        <li class="player-item starter"><span>De'Von Achane <span class="position">(RB)</span></span> <span class="points">22.2</span></li>
+                        <li class="player-item starter"><span>D'Andre Swift <span class="position">(RB)</span></span> <span class="points">12.4</span></li>
+                        <li class="player-item starter"><span>CeeDee Lamb <span class="position">(WR)</span></span> <span class="points">15.7</span></li>
+                        <li class="player-item starter bust"><span>Marvin Harrison <span class="position">(WR)</span></span> <span class="points">3.7</span></li>
+                        <li class="player-item starter"><span>Travis Kelce <span class="position">(TE)</span></span> <span class="points">8.1</span></li>
+                        <li class="player-item starter"><span>Stefon Diggs <span class="position">(WR)</span></span> <span class="points">5.2</span></li>
+                        <li class="player-item starter"><span>Marvin Mims <span class="position">(WR)</span></span> <span class="points">9.4</span></li>
+                        <li class="player-item starter"><span>Cameron Dicker <span class="position">(K)</span></span> <span class="points">8.0</span></li>
+                        <li class="player-item starter bust"><span>Broncos D/ST</span> <span class="points">0.0</span></li>
+                        <hr style="margin: 10px 0;">
+                        <li class="player-item bench"><span>Quinshon Judkins <span class="position">(RB)</span></span> <span class="points">8.6</span></li>
+                        <li class="player-item bench star"><span>Dak Prescott <span class="position">(QB)</span></span> <span class="points">23.14</span></li>
+                        <li class="player-item bench"><span>Rico Dowdle <span class="position">(RB)</span></span> <span class="points">2.4</span></li>
+                        <li class="player-item bench star"><span>Wan'Dale Robinson <span class="position">(WR)</span></span> <span class="points">24.2</span></li>
+                        <li class="player-item bench"><span>Seahawks D/ST</span> <span class="points">14.0</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="insights-section">
+        <div style="font-size: 2.2em; font-weight: bold; margin-bottom: 20px; text-align: center;">📊 WEEK 2 LEAGUE REVOLUTION</div>
+        
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-title">🎯 Redemption Week Champions</div>
+                <div class="stat-highlight">
+                    <strong>Bounce-Back Performances:</strong><br>
+                    • Ja'Marr Chase: 3.6 → 29.5 pts (+25.9)<br>
+                    • Malik Nabers: 9.6 → 33.2 pts (+23.6)<br>
+                    • Jonathan Taylor: 11.3 → 28.5 pts (+17.2)<br>
+                    • Amon-Ra St. Brown: 6.5 → 34.7 pts (+28.2)<br>
+                    • George Pickens: 4.5 → 15.3 pts (+10.8)
+                </div>
+                Elite talent doesn't stay quiet for long - Week 2 proved that quality players find ways to produce regardless of temporary setbacks.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">💥 Lineup Management Catastrophes</div>
+                <div class="warning-sign">
+                    <strong>Week 2 Worst Decisions:</strong><br>
+                    1. Flight Of The Owl: 53.0 pts missed (Dak + Wan'Dale benched)<br>
+                    2. Nater's Taters: 39.5 pts missed (Trevor + Stevenson benched)<br>
+                    3. Hops and Hail Marys: 37.0 pts missed (Drake Maye benched again)<br>
+                    4. Summerville: 33.6 pts missed (Bo Nix benched after great Week 1)<br>
+                    5. Hate Thy Nabers: 32.2 pts missed (Rome Odunze explosive on bench)
+                </div>
+                League-wide lineup efficiency actually got WORSE in Week 2, with teams collectively missing 293+ points through poor decisions.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🌟 Hidden Bench Explosions</div>
+                <div class="trade-opportunity">
+                    <strong>Stars Watching From Sidelines:</strong><br>
+                    • Rome Odunze (CHI): 28.3 pts - Bears rookie breaking out<br>
+                    • Drake Maye (NE): 26.3 pts - Patriots QB development accelerating<br>
+                    • Wan'Dale Robinson (NYG): 24.2 pts - Giants slot specialist<br>
+                    • Dak Prescott (DAL): 23.14 pts - Cowboys veteran reliability<br>
+                    • Trevor Lawrence (JAX): 21.24 pts - Jaguars system clicking
+                </div>
+                Multiple elite performances hidden on benches create immediate trade opportunities for savvy managers recognizing emerging trends.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">📈 Lions Offensive Explosion</div>
+                <div class="stat-highlight">
+                    <strong>Detroit Stack Dominance:</strong><br>
+                    • Jared Goff: 33.96 pts (Week's #2 QB)<br>
+                    • Amon-Ra St. Brown: 34.7 pts (Week's #1 player)<br>
+                    • Jahmyr Gibbs: 17.9 pts (consistent production)<br>
+                    • Sam LaPorta: 4.1 pts (only disappointment)
+                </div>
+                The Lions' offensive system reached peak efficiency, validating every stack strategy and system upgrade projection from comprehensive research.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🚨 Championship Contender Adjustments</div>
+                <div class="warning-sign">
+                    <strong>Current Standings Impact:</strong><br>
+                    • Hate Thy Nabers: 2-0 (Elite foundation paying off)<br>
+                    • The Good Christians: 2-0 (Championship anchors reliable)<br>
+                    • 7 Teams at 1-1: Tight championship race<br>
+                    • brennamcampbell: 0-2 (Allen can't carry alone)<br>
+                    • Hops and Hail Marys: 0-2 (Health disasters continue)
+                </div>
+                Early season separation beginning as teams with elite foundations and smart management pull ahead of talented but poorly managed rosters.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🔮 Rookie Development Tracking</div>
+                <div class="trade-opportunity">
+                    <strong>Rookie Trajectory Updates:</strong><br>
+                    • Malik Nabers: Elite WR1 ceiling confirmed (33.2 pts)<br>
+                    • Rome Odunze: Bears breakout accelerating (28.3 pts)<br>
+                    • Caleb Williams: Steady development (17.98 pts)<br>
+                    • Drake Maye: Patriots surprise star (26.3 pts)<br>
+                    • Marvin Harrison Jr.: Growing pains evident (3.7 pts)
+                </div>
+                Rookie development happening faster than typical timelines, creating immediate impact and trade value adjustments.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🏆 Trade Market Intelligence</div>
+                <div class="stat-highlight">
+                    <strong>Current Market Dynamics:</strong><br>
+                    • Buy-Low: Derrick Henry (sell-high crash), Josh Allen (human week)<br>
+                    • Sell-High: Amon-Ra St. Brown (ceiling week), Malik Nabers (breakout)<br>
+                    • Bench Stars: Multiple elite performers available via trade<br>
+                    • Panic Sells: 0-2 teams (brennamcampbell, Hops) may move stars
+                </div>
+                Week 2 results create clear trade market opportunities as teams reassess early-season assumptions and panic sets in for struggling contenders.
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">📊 Statistical Insights</div>
+                <div class="stat-highlight">
+                    <strong>Week 2 League Metrics:</strong><br>
+                    • Highest Score: 135.48 (Hate Thy Nabers)<br>
+                    • Lowest Score: 100.74 (Hops and Hail Marys)<br>
+                    • Average Score: 114.1 points (+9.7 vs Week 1)<br>
+                    • Lineup Efficiency: 82.3% (WORSE than Week 1)<br>
+                    • Bench Points Missed: 293.3 (slightly higher than Week 1)
+                </div>
+                Scoring increased league-wide but lineup management actually deteriorated, suggesting teams are struggling with roster depth decisions as options multiply.
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="text-align: center; font-style: italic; color: #666; font-size: 0.9em; margin-top: 20px;">
+            📈 Analysis powered by 101 comprehensive player analyses and advanced MCP scoring analytics
+        </div>
+    </div>
+
+    <script>
+        // Initialize page - show all matchups by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showMatchup('all');
+        });
+
+        function showMatchup(matchupId) {
+            const allMatchups = document.querySelectorAll('.matchup');
+            const insightsSection = document.querySelector('.insights-section');
+            
+            if (matchupId === 'all') {
+                // Show all matchups and insights
+                allMatchups.forEach(matchup => {
+                    matchup.style.display = 'block';
+                });
+                if (insightsSection) {
+                    insightsSection.style.display = 'block';
+                }
+            } else {
+                // Hide all matchups first
+                allMatchups.forEach(matchup => {
+                    matchup.style.display = 'none';
+                });
+                
+                // Show selected matchup
+                const selectedMatchup = document.getElementById(`matchup-${matchupId}`);
+                if (selectedMatchup) {
+                    selectedMatchup.style.display = 'block';
+                }
+                
+                // Hide insights section when viewing single matchup
+                if (insightsSection) {
+                    insightsSection.style.display = 'none';
+                }
+            }
+            
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changeWeek(weekNumber) {
+            if (weekNumber === '1') {
+                // Redirect to Week 1 analysis
+                window.location.href = 'WPFL-Week-1-Matchups-Clean.html';
+            } else if (weekNumber === '2') {
+                // Stay on current page
+                location.reload();
+            } else {
+                alert(`Week ${weekNumber} analysis coming soon! Check back after the games complete.`);
+                // Reset to Week 2
+                document.getElementById('week-picker').value = '2';
+            }
+        }
+
+        // Add smooth scrolling for better UX
+        document.querySelector('.nav-controls').addEventListener('change', function() {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
