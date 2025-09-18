@@ -366,6 +366,77 @@
                 font-size: 0.85em;
             }
         }
+        
+        /* Navigation Controls Styling */
+        .nav-controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .week-selector, .matchup-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-controls label {
+            font-weight: bold;
+            color: #2C3E50;
+            font-size: 1.1em;
+        }
+        .nav-controls select {
+            padding: 10px 15px;
+            border: 2px solid #3498DB;
+            border-radius: 8px;
+            background: white;
+            font-size: 1em;
+            min-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-controls select:hover {
+            border-color: #2980B9;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.3);
+        }
+        .nav-controls select:focus {
+            outline: none;
+            border-color: #2980B9;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+        }
+        
+        /* Mobile navigation adjustments */
+        @media (max-width: 768px) {
+            .nav-controls {
+                flex-direction: column;
+                gap: 15px;
+                margin: 15px 0;
+                padding: 15px;
+            }
+            .nav-controls select {
+                min-width: 250px;
+                font-size: 0.9em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-controls {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            .nav-controls select {
+                min-width: 200px;
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            .nav-controls label {
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -373,7 +444,33 @@
         <h1>🏈 WPFL Week 1 Matchup Narratives 🏈</h1>
         <div class="subtitle">Fantasy Football Drama Unfolds - Complete Roster Analysis</div>
         
-        <div class="matchup">
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <div class="week-selector">
+                <label for="week-picker">📅 Week:</label>
+                <select id="week-picker" onchange="changeWeek(this.value)">
+                    <option value="1" selected>Week 1</option>
+                    <option value="2" disabled>Week 2 (Coming Soon)</option>
+                    <option value="3" disabled>Week 3 (Coming Soon)</option>
+                    <option value="4" disabled>Week 4 (Coming Soon)</option>
+                    <option value="5" disabled>Week 5 (Coming Soon)</option>
+                </select>
+            </div>
+            <div class="matchup-selector">
+                <label for="matchup-picker">🔥 Matchup:</label>
+                <select id="matchup-picker" onchange="showMatchup(this.value)">
+                    <option value="all">All Matchups</option>
+                    <option value="1">🏆 Raleigh Llamas vs Sheffield Shufflers</option>
+                    <option value="2">🔥 Addie's Baddies vs roxlundy</option>
+                    <option value="3">💥 Hate Thy Nabers vs Summerville Sadness</option>
+                    <option value="4">😤 brennamcampbell vs Flight Of The Owl</option>
+                    <option value="5">🎯 Nater's Taters vs Avery's Avengers</option>
+                    <option value="6">🏅 Hops and Hail Marys vs The Good Christians</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="matchup" id="matchup-1">
             <div class="matchup-header">
                 <span>🏆 MATCHUP 1: Raleigh Llamas vs Sheffield Shufflers</span>
             </div>
@@ -431,7 +528,7 @@
             </div>
         </div>
 
-        <div class="matchup">
+        <div class="matchup" id="matchup-2">
             <div class="matchup-header">
                 <span>🔥 MATCHUP 2: Addie's Baddies vs roxlundy</span>
             </div>
@@ -489,7 +586,7 @@
             </div>
         </div>
 
-        <div class="matchup">
+        <div class="matchup" id="matchup-3">
             <div class="matchup-header">
                 <span>💥 MATCHUP 3: Hate Thy Nabers vs Summerville Sadness</span>
             </div>
@@ -548,7 +645,7 @@
             </div>
         </div>
 
-        <div class="matchup">
+        <div class="matchup" id="matchup-4">
             <div class="matchup-header">
                 <span>😤 MATCHUP 4: brennamcampbell vs Flight Of The Owl</span>
             </div>
@@ -606,7 +703,7 @@
             </div>
         </div>
 
-        <div class="matchup">
+        <div class="matchup" id="matchup-5">
             <div class="matchup-header">
                 <span>🎯 MATCHUP 5: Nater's Taters vs Avery's Avengers</span>
             </div>
@@ -664,7 +761,7 @@
             </div>
         </div>
 
-        <div class="matchup">
+        <div class="matchup" id="matchup-6">
             <div class="matchup-header">
                 <span>🏅 MATCHUP 6: Hops and Hail Marys vs The Good Christians</span>
             </div>
@@ -853,5 +950,65 @@
             📈 Analysis powered by 101 comprehensive player analyses (285,000+ words) and advanced MCP scoring analytics
         </div>
     </div>
+
+    <script>
+        // Initialize page - show all matchups by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showMatchup('all');
+        });
+
+        function showMatchup(matchupId) {
+            const allMatchups = document.querySelectorAll('.matchup');
+            const insightsSection = document.querySelector('.insights-section');
+            
+            if (matchupId === 'all') {
+                // Show all matchups and insights
+                allMatchups.forEach(matchup => {
+                    matchup.style.display = 'block';
+                });
+                if (insightsSection) {
+                    insightsSection.style.display = 'block';
+                }
+            } else {
+                // Hide all matchups first
+                allMatchups.forEach(matchup => {
+                    matchup.style.display = 'none';
+                });
+                
+                // Show selected matchup
+                const selectedMatchup = document.getElementById(`matchup-${matchupId}`);
+                if (selectedMatchup) {
+                    selectedMatchup.style.display = 'block';
+                }
+                
+                // Hide insights section when viewing single matchup
+                if (insightsSection) {
+                    insightsSection.style.display = 'none';
+                }
+            }
+            
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changeWeek(weekNumber) {
+            // For now, just alert (future enhancement for multiple weeks)
+            if (weekNumber !== '1') {
+                alert(`Week ${weekNumber} analysis coming soon! Check back after the games complete.`);
+                // Reset to Week 1
+                document.getElementById('week-picker').value = '1';
+            } else {
+                // Refresh current week data (could trigger re-fetch in future)
+                location.reload();
+            }
+        }
+
+        // Add smooth scrolling for better UX
+        document.querySelector('.nav-controls').addEventListener('change', function() {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        });
+    </script>
 </body>
 </html>
